@@ -37,6 +37,14 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    // 开发环境代理跨域 还有生产环境跨域
+    proxy: {
+      '/api': {
+        target: 'http://ihrm-java.itheima.net/',
+        changeOrigin: true,
+        //pathRewrite: {} 路径重写
+      }
+    }
     // before: require('./mock/mock-server.js')
   },
   configureWebpack: {
