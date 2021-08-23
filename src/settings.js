@@ -16,5 +16,5 @@ module.exports = {
    */
 
   // 显示左侧菜单logo
-  sidebarLogo: false
+  sidebarLogo: true
 }
