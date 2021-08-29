@@ -5,12 +5,15 @@ import 'nprogress/nprogress.css' // 引入进度条样式
 
 const whiteList = ['/login', '/404']
 //路由前置守卫
-router.beforeEach((to, from, netx) => {
+router.beforeEach(async (to, from, netx) => {
   NProgress.start() //开启过度条
   if (store.getters.token) {
     if (to.path === '/login') {
       netx('/')
     } else {
+      if(!store.state.user.userInfo.userId) {
+        await store.dispatch('user/getUserInfo')
+      }
       netx()
     }
   } else {
