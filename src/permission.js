@@ -7,6 +7,7 @@ const whiteList = ['/login', '/404']
 //路由前置守卫
 router.beforeEach(async (to, from, netx) => {
   NProgress.start() //开启过度条
+  // 判断是否有token
   if (store.getters.token) {
     if (to.path === '/login') {
       netx('/')

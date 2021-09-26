@@ -8,7 +8,7 @@ export function login(data) {
     data // 传入请求参数data
   })
 }
-
+// 获取用户资料
 export function getUserInfo() {
   return request({
     url: '/sys/profile',
@@ -16,6 +16,11 @@ export function getUserInfo() {
   })
 }
 
+export function getUserDetailBuId(id) {
+  return request({
+    url: `/sys/user/${id}`
+  })
+} 
 export function getInfo(token) {
 
 }

@@ -1,5 +1,5 @@
-import {getToken, setToken, removeToken} from '@/utils/auth'
-import { login, getUserInfo } from '@/api/user'
+import {getToken, setToken, removeToken, setTimeStamp} from '@/utils/auth'
+import { login, getUserInfo, getUserDetailBuId} from '@/api/user'
 
 const state = {
   // 读取token
@@ -30,13 +30,28 @@ const mutations = {
 }
 const actions = {
   async login(context, data) {
-    const result = await login(data)
-    context.commit('setToken', result)
+    const result = await login(data) // 拿到token
+    context.commit('setToken', result) // 设置token 
+    // 拿到token说明登陆成功
+    setTimeStamp() // 设置时间戳
   },
   async getUserInfo (context) {
-    const result = await getUserInfo()  // 获取返回值
-    context.commit('setUserInfo', result) // 将整个的个人信息设置到用户的vuex数据中
-    return result // 这里为什么要返回 为后面埋下伏笔
+    // 获取返回值
+    const result = await getUserInfo()  
+    // 获取用户详情数据
+    const baseInfo = await getUserDetailBuId(result.userId)
+    // 合并两个接口数据
+    const baseResult = {...result, ...baseInfo}
+    // 将整个的个人信息设置到用户的vuex数据中
+    context.commit('setUserInfo', baseResult) 
+    return baseResult // 这里为什么要返回 为后面埋下伏笔
+  },
+  // 登出操作
+  logout(context) {
+    // 删除token
+    context.commit('removeToken')
+    // 删除用户资料
+    context.commit('reomveUserInfo')
   }
 }
 

@@ -1,6 +1,9 @@
 import store from '@/store'
 import axios from 'axios'
+import router from '@/router'
 import { Message } from 'element-ui'
+import { getTimeStamp } from '@/utils/auth'
+const TimeOut = 3600
 // create an axios instance
 const service = axios.create({
   // 这里的process.env就是Nodejs提供的一个API，它返回一个包含用户环境信息的对象
@@ -15,6 +18,12 @@ const service = axios.create({
 service.interceptors.request.use(request => {
   // 如果token存在 注入token
   if (store.getters.token) {
+    if(IsCheckTimeOut()) {
+      // true表示过期了
+      store.dispatch('user/logout')
+      router.push('/login')
+      return Promise.reject(new Error('token超时了'))
+    }
     request.headers['Authorization'] = `Bearer ${store.getters.token}`
   }
   return request // 必须返回配置
@@ -33,8 +42,20 @@ service.interceptors.response.use(response => {
     return Promise.reject(new Error(message))
   }
 }, error => {
-  Message.error(error.message)
+  if(error.response && error.response.data && error.response.data.code === 10002) {
+    store.dispatch('user/logout')
+    router.push('/login')
+  } else {
+    Message.error(error.message)
+  }
   return Promise.reject(error)
 })
 
+
+// 定义检测时间戳是否超时
+function IsCheckTimeOut() {
+  var currentTime =  Date.now()
+  var timeStamp = getTimeStamp()
+  return (currentTime - timeStamp) / 1000 > TimeOut
+}
 export default service
