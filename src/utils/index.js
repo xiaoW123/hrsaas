@@ -2,6 +2,8 @@
  * Created by PanJiaChen on 16/11/18.
  */
 
+import app from "@/store/modules/app"
+
 /**
  * Parse the time to string
  * @param {(Object|string|number)} time
@@ -114,4 +116,23 @@ export function param2Obj(url) {
     }
   })
   return obj
+}
+
+/* 
+* 将列表（数组）型数据转换为 树形数据 => 递归算法 => 自身调用自身 => 一定条件不能相等 
+* 遍历树型 有一个重点 要先找一个头
+*/
+export function tranListToTreeData(list, rootValue) {
+  var arr = []
+  list.forEach(item => {
+    if(item.pid === rootValue) {
+      const children = tranListToTreeData(list, item.id)
+      // console.log(children)
+      if(children.length) {
+        item.children = children
+      }
+      arr.push(item)
+    }
+  })
+  return arr
 }
