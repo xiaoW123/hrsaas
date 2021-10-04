@@ -16,15 +16,31 @@ export function delDepartments(id) {
     // delete删除业务
     // get 获取业务
     // post 新增业务
-    // put修改业务
+    // put修改业物
   })
 }
 
 // 添加部门业务
 export function addDepartments(data) {
   return request({
-    url: ' /company/department',
+    url: '/company/department',
     method: 'post',
-    data
+    data: data
   })
 }
+
+// 编辑业务
+export function getDepartDetail(id) {
+  return request({
+    url: `/company/department/${id}`
+  })
+}
+
+// 编辑业务
+export function updateDepartments(data) {
+  return request({
+    url: `/company/department/${data.id}`,
+    method: 'put',
+    data
+  })
+} 

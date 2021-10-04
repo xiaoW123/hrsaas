@@ -1,38 +1,39 @@
 <template>
-<div style="width: 100%">
-  <el-row
-    type="flex"
-    justify="space-between"
-    align="middle"
-    style="height: 40px; width: 100%"
-  >
-    <el-col>
-      <!-- 左侧内容 -->
-      <span>{{ treeNode.name }}</span>
-    </el-col>
-    <el-col :span="4">
-      <!-- 右侧内容 -->
-      <el-row type="flex" justify="end">
-        <el-col>{{ treeNode.manager }}</el-col>
-        <el-col>
-          <el-dropdown @command="operateDepts">
-            <span> 操作<i class="el-icon-arrow-down el-icon--right"></i> </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="add">添加子部门</el-dropdown-item>
-              <el-dropdown-item v-if="!isRoot" command="edit"
-                >查看部门部门</el-dropdown-item
-              >
-              <el-dropdown-item v-if="!isRoot" command="del"
-                >删除部门</el-dropdown-item
-              >
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-col>
-      </el-row>
-    </el-col>
-  </el-row>
-</div>
-  
+  <div style="width: 100%">
+    <el-row
+      type="flex"
+      justify="space-between"
+      align="middle"
+      style="height: 40px; width: 100%"
+    >
+      <el-col>
+        <!-- 左侧内容 -->
+        <span>{{ treeNode.name }}</span>
+      </el-col>
+      <el-col :span="4">
+        <!-- 右侧内容 -->
+        <el-row type="flex" justify="end">
+          <el-col>{{ treeNode.manager }}</el-col>
+          <el-col>
+            <el-dropdown @command="operateDepts">
+              <span>
+                操作<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="add">添加子部门</el-dropdown-item>
+                <el-dropdown-item v-if="!isRoot" command="edit"
+                  >编辑部门</el-dropdown-item
+                >
+                <el-dropdown-item v-if="!isRoot" command="del"
+                  >删除部门</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -40,8 +41,7 @@ import { delDepartments, addDepartments } from "@/api/departments";
 
 export default {
   data() {
-    return {
-    }
+    return {};
   },
   methods: {
     operateDepts(type) {
@@ -50,12 +50,13 @@ export default {
         this.$emit("addDepts", this.treeNode);
       } else if (type === "edit") {
         // 编辑部门
-        this.$message("编辑部门！");
+        this.$emit("editDepts", this.treeNode);
       } else {
         this.$confirm("确定删除吗？", {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(() => {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+        })
+          .then(() => {
             return delDepartments(this.treeNode.id);
           })
           .then(() => {
