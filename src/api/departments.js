@@ -16,7 +16,7 @@ export function delDepartments(id) {
     // delete删除业务
     // get 获取业务
     // post 新增业务
-    // put修改业物
+    // put 修改业物
   })
 }
 
