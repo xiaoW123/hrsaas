@@ -6,7 +6,7 @@
         <template slot="after">
           <el-button size="small" type="warning">导入</el-button>
           <el-button size="small" type="danger">导出</el-button>
-          <el-button size="small" type="primary">新增员工</el-button>
+          <el-button size="small" type="primary" @click="showDialog = true">新增员工</el-button>
         </template>
       </page-tools>
       <el-card>
@@ -55,13 +55,13 @@
             </template>
           </el-table-column>
           <el-table-column label="操作" sortable="" width="250">
-            <template>
+            <template v-slot="{ row }">
               <el-button type="text" size="small">查看</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
               <el-button type="text" size="small">角色</el-button>
-              <el-button type="text" size="small">删除</el-button>
+              <el-button type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -79,15 +79,20 @@
             @current-change="changePage"
           ></el-pagination>
         </el-row>
+        <!-- 新增员工对话框 -->
+        <add-employee :showDialog.sync="showDialog"></add-employee>
       </el-card>
     </div>
   </div>
 </template>
 
 <script>
-import { getEmployeeList } from "@/api/employees";
-import EmployeeEnum from "@/api/constant/employees";
+import { getEmployeeList, delEmployee } from "@/api/employees";
 // 格式化聘用形式
+import EmployeeEnum from "@/api/constant/employees";
+import AddEmployee from './components/AddEmployee.vue';
+
+
 
 export default {
   data() {
@@ -99,9 +104,10 @@ export default {
         total: 0,
       },
       loading: false, // 显示遮罩层
+      showDialog: false, //新增对话框
     };
   },
-  components: {},
+  components: {AddEmployee},
   created() {
     this.getEmployeeList();
   },
@@ -122,6 +128,18 @@ export default {
       const obj = EmployeeEnum.hireType.find((item) => item.id === cellValue);
       return obj ? obj.value : "未知";
     },
+    // 删除员工
+    async delEmployee(id) {
+      try {
+        await this.$confirm('确定要删除该员工吗？',{confirmButtonText: '确定',
+          cancelButtonText: '取消'})
+          await delEmployee(id)
+          this.$message.success('删除员工成功！')
+          this.getEmployeeList();
+      } catch(error) {
+        console.log(error)
+      }
+    }
   },
 };
 </script>
