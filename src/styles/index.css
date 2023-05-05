@@ -104,7 +104,7 @@
 #app .sidebar-container {
   transition: width 0.28s;
   width: 210px !important;
-  background-color: transparent;
+  background: -webkit-linear-gradient(bottom, #3d6df8, #5b8cff);
   height: 100%;
   position: fixed;
   font-size: 0px;
@@ -121,6 +121,7 @@
 
 #app .sidebar-container .scrollbar-wrapper {
   overflow-x: hidden !important;
+  background: url("~@/assets/common/leftnavBg.png") no-repeat 0 100%;
 }
 
 #app .sidebar-container .el-scrollbar__bar.is-vertical {
@@ -158,6 +159,28 @@
   border: none;
   height: 100%;
   width: 100% !important;
+}
+
+#app .sidebar-container .el-menu a li .svg-icon {
+  color: #fff;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+#app .sidebar-container .el-menu a li .svg-icon .icon {
+  color: #fff;
+}
+
+#app .sidebar-container .el-menu a li span {
+  color: #fff;
+}
+
+#app .sidebar-container .el-menu a li:hover .svg-icon {
+  color: #43a7fe;
+}
+
+#app .sidebar-container .el-menu a li:hover span {
+  color: #43a7fe;
 }
 
 #app .sidebar-container .submenu-title-noDropdown:hover,
@@ -817,11 +840,12 @@
 }
 
 body {
+  min-width: 1400px;
   height: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Arial,sans-serif;
 }
 
 label {

@@ -1,5 +1,5 @@
 import { login, logout, getUserInfo, getUserDetailById } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const state = {
@@ -34,6 +34,8 @@ const actions = {
   async login(context, data) {
     const result = await login(data)
     context.commit('SET_TOKEN', result)
+    // 在登录成功获取token时，设置token超时所需要的时间戳
+    setTimeStamp()
   },
 
   // get user info
@@ -47,7 +49,7 @@ const actions = {
 
   // user logout
   logout(context) {
-    context.commit('REMOVE_TOKEN')  // 删除token
+    context.commit('REMOVE_TOKEN') // 删除token
     context.commit('REMOVE_USERINFO')
   },
 
