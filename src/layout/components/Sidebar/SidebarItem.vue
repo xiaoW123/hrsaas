@@ -8,19 +8,6 @@
       </app-link>
     </template>
     <!-- 项目不需要二级菜单显示 -->
-    <!-- <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
-      <template slot="title">
-        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
-      </template>
-      <sidebar-item
-        v-for="child in item.children"
-        :key="child.path"
-        :is-nest="true"
-        :item="child"
-        :base-path="resolvePath(child.path)"
-        class="nest-menu"
-      />
-    </el-submenu> -->
   </div>
 </template>
 
@@ -93,3 +80,14 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+/* .router-link-active {
+  background-color: #fff !important;
+  > li {
+    color: #409eff !important;
+  }
+} */
+/* .router-link-active {
+  color: #409eff !important;
+} */
+</style>

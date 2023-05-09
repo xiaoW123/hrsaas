@@ -10,7 +10,6 @@ router.beforeEach(async (to, from, next) => {
   // nprogress.start() // 开启进度条
   // 如果token存在
   if (store.getters.token) {
-    console.log(store.getters.token)
     // 如果to的路径为登录页面，就直接跳转到首页
     if (to.path === '/login') {
       next('/')

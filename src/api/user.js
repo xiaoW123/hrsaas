@@ -15,7 +15,6 @@ export function getUserInfo() {
     method: 'post'
   })
 }
-export function logout() { }
 
 export function getUserDetailById(id) {
   return request({

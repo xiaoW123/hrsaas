@@ -76,10 +76,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tree-card {
-  padding: 30px 140px;
-  font-size: 14px;
-}
 .line_one {
   padding-bottom: 10px;
   border-bottom: 1px solid #f3f3f3;

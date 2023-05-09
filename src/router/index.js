@@ -53,8 +53,20 @@ export const constantRoutes = [
       }
     ]
   },
+  // 导入Excel路由
+  {
+    path: '/import',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/import')
+      }
+    ]
+  },
+  { path: '*', redirect: '/404', hidden: true },
 
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () =>
