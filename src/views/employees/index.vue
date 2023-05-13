@@ -21,6 +21,7 @@
                 :src="row.staffPhoto"
                 style="border-radius: 50%; width: 100px; height: 100px; padding: 10px"
                 alt=""
+                @click="showQrCode(row.staffPhoto)"
               />
             </template>
           </el-table-column>
@@ -61,6 +62,12 @@
       </el-card>
       <!-- 弹窗组件 -->
       <add-employee :show-dialog.sync="showDialog" />
+      <!-- 二维码弹窗 -->
+      <el-dialog title="二维码" :visible.sync="showCodeDialog" @opened="showQrCode" @close="imgUrl = ''">
+        <el-row type="flex" justify="center">
+          <canvas ref="myCanvas" />
+        </el-row>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -79,6 +86,9 @@ import UploadExcel from '@/components/UploadExcel/index.vue'
 
 import { formatDate } from '@/filters'
 
+// 二维码组件
+import QrCode from 'qrcode'
+
 export default {
   name: 'Employees',
   components: { PageTools, AddEmployee, UploadExcel },
@@ -92,7 +102,9 @@ export default {
         page: 1, // 页码
         size: 10, // 每页条数
         total: 0 // 总数
-      }
+      },
+      // 二维码弹窗
+      showCodeDialog: false
     }
   },
   created() {
@@ -175,6 +187,20 @@ export default {
           return item[headers[key]]
         })
       })
+    },
+    // 点击图片查看二维码
+    showQrCode(url) {
+      console.log(url)
+      if (url) {
+        this.showCodeDialog = true
+        // 数据更新了 但是我的弹层会立刻出现吗 ？页面的渲染是异步的！！！！
+        // 有一个方法可以在上一次数据更新完毕，页面渲染完毕之后
+        this.$nextTick(() => {
+          QrCode.toCanvas(this.$refs.myCanvas, url)
+        })
+      } else {
+        this.$message.warning('该用户还未上传头像')
+      }
     }
   }
 }

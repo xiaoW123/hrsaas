@@ -26,6 +26,9 @@ Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key])
 })
 
+import Print from 'vue-print-nb'
+Vue.use(Print)
+
 // 引如全局注册的组件
 
 Vue.use(ElementUI, { locale })
