@@ -44,7 +44,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="editRole(row.id)">角色</el-button>
               <el-button type="text" size="small" @click="deleteEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -68,6 +68,8 @@
           <canvas ref="myCanvas" />
         </el-row>
       </el-dialog>
+      <!-- 角色弹窗 -->
+      <assign-role ref="assignRole" :show-role-dialog.sync="showRoleDialog" :user-id="userId" />
     </div>
   </div>
 </template>
@@ -77,21 +79,18 @@ import { getEmployeeList, delEmployee } from '@/api/employees.js'
 import PageTools from '@/components/PageTools'
 // 聘用枚举类型
 import EmployeeEnum from '@/api/constant/employees'
-// 时间格式化工具，在全局注册
-
 // 弹窗组件
 import AddEmployee from './components/AddEmployee.vue'
-
 import UploadExcel from '@/components/UploadExcel/index.vue'
-
 import { formatDate } from '@/filters'
-
 // 二维码组件
 import QrCode from 'qrcode'
+// 角色弹窗
+import AssignRole from './components/AssignRole.vue'
 
 export default {
   name: 'Employees',
-  components: { PageTools, AddEmployee, UploadExcel },
+  components: { PageTools, AddEmployee, UploadExcel, AssignRole },
   data() {
     return {
       defaultImg: require('@/assets/common/defaultImg.png'),
@@ -103,8 +102,10 @@ export default {
         size: 10, // 每页条数
         total: 0 // 总数
       },
-      // 二维码弹窗
-      showCodeDialog: false
+
+      showCodeDialog: false, // 二维码弹窗
+      showRoleDialog: false, // 角色弹窗
+      userId: '' // 角色id
     }
   },
   created() {
@@ -201,6 +202,13 @@ export default {
       } else {
         this.$message.warning('该用户还未上传头像')
       }
+    },
+    // 角色
+    editRole(id) {
+      // props把id传过去是异步的，所以我们需要父组件调用子组件的方法
+      this.userId = id
+      this.$refs.assignRole.getUserDetailById(id)
+      this.showRoleDialog = true
     }
   }
 }

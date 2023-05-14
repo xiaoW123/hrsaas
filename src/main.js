@@ -14,6 +14,7 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import checkPermission from '@/mixin/checkPermission'
 
 // 自定义指令注册(所有)
 import * as directives from '@/directives'
@@ -29,6 +30,7 @@ Object.keys(filters).forEach((key) => {
 import Print from 'vue-print-nb'
 Vue.use(Print)
 
+Vue.mixin(checkPermission)
 // 引如全局注册的组件
 
 Vue.use(ElementUI, { locale })

@@ -31,7 +31,7 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
-    hidden: true //**`hidden`**为true时，表示该路由不显示在左侧菜单中
+    hidden: true // `hidden`**为true时，表示该路由不显示在左侧菜单中
   },
 
   {
@@ -65,18 +65,19 @@ export const constantRoutes = [
       }
     ]
   },
-  { path: '*', redirect: '/404', hidden: true },
 
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () =>
   new Router({
     scrollBehavior: () => ({ y: 0 }), // 管理滚动行为 如果出现滚动 切换就让 让页面回到顶部
-    routes: [...constantRoutes, ...AsyncRoutes] // 静态路由和动态路由的临时合并
+    routes: [...constantRoutes] // 静态路由和动态路由的临时合并
   })
 
 const router = createRouter()
 
+// 登出时操作路由,解决:路由权限的addRoutes一直添加,
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
