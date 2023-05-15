@@ -7,7 +7,9 @@
         <template v-slot:before>{{ tipsInfo }}</template>
         <template v-slot:after>
           <el-button size="mini" type="danger" @click="$router.push('/salarys/setting')">设置</el-button>
-          <el-button size="mini" type="primary" @click="$router.push(`/salarys/monthStatement?yearMonth=${yearMonth}`)">{{ yearMonth }}报表</el-button>
+          <el-button size="mini" type="primary" @click="$router.push(`/salarys/monthStatement?yearMonth=${yearMonth}`)"
+            >{{ yearMonth }}报表</el-button
+          >
         </template>
       </page-tools>
       <!-- 条件筛选 -->
@@ -15,32 +17,17 @@
         <el-form label-width="120px">
           <el-form-item label="聘用形式:">
             <el-checkbox-group v-model="formData.approvalsTypeChecks">
-              <el-checkbox
-                v-for="item in approvalsType"
-                :key="item.id"
-                :label="item.id"
-                @change="changeParams"
-              >{{ item.value }}</el-checkbox>
+              <el-checkbox v-for="item in approvalsType" :key="item.id" :label="item.id" @change="changeParams">{{ item.value }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="员工状态:">
             <el-checkbox-group v-model="formData.approvalsStateChecks">
-              <el-checkbox
-                v-for="item in approvalsState"
-                :key="item.id"
-                :label="item.id"
-                @change="changeParams"
-              >{{ item.value }}</el-checkbox>
+              <el-checkbox v-for="item in approvalsState" :key="item.id" :label="item.id" @change="changeParams">{{ item.value }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="部门:">
             <el-checkbox-group v-model="formData.departmentChecks">
-              <el-checkbox
-                v-for="item in departments"
-                :key="item.id"
-                :label="item.id"
-                @change="changeParams"
-              >{{ item.name }}</el-checkbox>
+              <el-checkbox v-for="item in departments" :key="item.id" :label="item.id" @change="changeParams">{{ item.name }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-form>
@@ -55,9 +42,7 @@
           <el-table-column prop="departmentName" label="部门" width="100" />
           <el-table-column prop="timeOfEntry" width="130" label="入职时间">
             <template v-slot:default="obj">
-              {{
-                obj.row.timeOfEntry | formatDate
-              }}
+              {{ obj.row.timeOfEntry | formatDate }}
             </template>
           </el-table-column>
           <el-table-column label="工资基数" width="100">
@@ -69,19 +54,15 @@
           <el-table-column label="操作" width="260">
             <template slot-scope="scope" style>
               <el-button
-                v-if="scope.row.currentBasicSalary + scope.row.currentPostWage > 0 "
+                v-if="scope.row.currentBasicSalary + scope.row.currentPostWage > 0"
                 size="mini"
                 type="primary"
-                @click="changeSalary('ChangeSalary',scope.row.id)"
-              >调薪</el-button>
-              <el-button
-                v-else
-                size="mini"
-                type="danger"
-                @click="fixedSalary('FixedSalary',scope.row.id)"
-              >定薪</el-button>
+                @click="changeSalary('ChangeSalary', scope.row.id)"
+                >调薪</el-button
+              >
+              <el-button v-else size="mini" type="danger" @click="fixedSalary('FixedSalary', scope.row.id)">定薪</el-button>
               <el-button type="text" size="mini">
-                <router-link :to="{'path': '/salarys/details/'+yearMonth+'/'+scope.row.id}">查看</router-link>
+                <router-link :to="{ path: '/salarys/details/' + yearMonth + '/' + scope.row.id }">查看</router-link>
               </el-button>
             </template>
           </el-table-column>
@@ -95,12 +76,17 @@
             :page-size="page.pageSize"
             @current-change="changePage"
           />
-
         </el-row>
       </el-card>
       <!--查看弹框-->
       <el-dialog :title="topLabel" :visible.sync="centerDialogVisible" width="50%" left>
-        <component :is="currentComponent" :user-salary="selectedSalaryInfo" :user-id="selectUserId" @success="getSalarysList" @onDialogCancel="centerDialogVisible=false" />
+        <component
+          :is="currentComponent"
+          :user-salary="selectedSalaryInfo"
+          :user-id="selectUserId"
+          @success="getSalarysList"
+          @onDialogCancel="centerDialogVisible = false"
+        />
         <!-- <ChangeSalary v-if="seeState == 'changeSalary'" :user-salary="selectedSalaryInfo" :user-id="selectUserId" @onDialogCancel="centerDialogVisible=false" /> -->
         <!-- <FixedSalary v-if="seeState == 'fixedSalary'" /> -->
       </el-dialog>
@@ -113,9 +99,10 @@ import EmployeeData from '@/api/constant/employees'
 import { getDepartments } from '@/api/departments'
 import ChangeSalary from './components/change-salary'
 import FixedSalary from './components/fixed-salary'
+import PageTools from '@/components/PageTools'
 export default {
   name: 'UsersTableIndex',
-  components: { ChangeSalary, FixedSalary },
+  components: { ChangeSalary, FixedSalary, PageTools },
   data() {
     return {
       seeState: '',
@@ -143,7 +130,6 @@ export default {
       selectedSalaryInfo: {},
       selectUserId: null,
       currentComponent: ''
-
     }
   },
   computed: {
@@ -159,20 +145,20 @@ export default {
   methods: {
     // 对聘用形式进行文本显示
     formatEmployment(row) {
-      const data = this.approvalsType.find(item => item.id === row.formOfEmployment.toString())
+      const data = this.approvalsType.find((item) => item.id === row.formOfEmployment.toString())
       return data ? data.value : '未知'
     },
-    async  getSalarysList() {
+    async getSalarysList() {
       const data = await getCompanySetting()
       this.yearMonth = data.dataMonth
       this.loading = true
-      const { rows, total } = await getSalarysList({ ...this.page, ... this.formData })
+      const { rows, total } = await getSalarysList({ ...this.page, ...this.formData })
       this.list = rows
       this.page.total = total
       this.loading = false
     },
     // 获取组织列表
-    async  getDepartments() {
+    async getDepartments() {
       const { depts } = await getDepartments()
       this.departments = depts
     },
@@ -184,7 +170,7 @@ export default {
       this.page.page = newPage
       this.getSalarysList()
     },
-    async  changeSalary(key, userId) {
+    async changeSalary(key, userId) {
       this.topLabel = '调薪'
       this.currentComponent = key
       this.centerDialogVisible = true

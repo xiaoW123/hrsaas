@@ -11,7 +11,7 @@
       </page-tools>
       <!-- <ApprovalPageTool /> -->
       <el-card class="hr-block">
-        <el-table :data="list" style="width: 100%" :default-sort="{prop: 'date', order: 'descending'}">
+        <el-table :data="list" style="width: 100%" :default-sort="{ prop: 'date', order: 'descending' }">
           <el-table-column type="selection" width="30" />
           <el-table-column type="index" width="80" label="序号" />
           <el-table-column prop="processName" label="审批类型" sortable />
@@ -24,39 +24,22 @@
           </el-table-column>
           <el-table-column prop="process_state" label="审批状态" sortable>
             <template slot-scope="scope">
-              <span v-if="scope.row.processState==='0'" class="rovalsState">
-                <em class="sub" />已提交
-              </span>
-              <span v-if="scope.row.processState==='1'" class="rovalsState">
-                <em class="stay" />审批中
-              </span>
-              <span v-if="scope.row.processState==='2'" class="rovalsState">
-                <em class="adopt" />审批通过
-              </span>
-              <span v-if="scope.row.processState==='3'" class="rovalsState">
-                <em class="reject" />审批不通过
-              </span>
-              <span v-if="scope.row.processState==='4'" class="rovalsState">
-                <em class="revoke" />撤销
-              </span>
+              <span v-if="scope.row.processState === '0'" class="rovalsState"> <em class="sub" />已提交 </span>
+              <span v-if="scope.row.processState === '1'" class="rovalsState"> <em class="stay" />审批中 </span>
+              <span v-if="scope.row.processState === '2'" class="rovalsState"> <em class="adopt" />审批通过 </span>
+              <span v-if="scope.row.processState === '3'" class="rovalsState"> <em class="reject" />审批不通过 </span>
+              <span v-if="scope.row.processState === '4'" class="rovalsState"> <em class="revoke" />撤销 </span>
             </template>
           </el-table-column>
           <el-table-column label="操作" width="100">
             <template slot-scope="scope">
-              <el-button type="text" size="mini" @click="toDetail(scope.row)">
-                查看
-              </el-button>
+              <el-button type="text" size="mini" @click="toDetail(scope.row)"> 查看 </el-button>
             </template>
           </el-table-column>
         </el-table>
         <!-- 分页组件 -->
         <el-row type="flex" align="middle" justify="center" style="height: 60px">
-          <el-pagination
-            :total="page.total"
-            :page-size="page.pagesize"
-            layout="prev, pager, next"
-            @current-change="changePage"
-          />
+          <el-pagination :total="page.total" :page-size="page.pagesize" layout="prev, pager, next" @current-change="changePage" />
         </el-row>
       </el-card>
     </div>
@@ -65,11 +48,12 @@
 
 <script>
 import { getApprovalList } from '@/api/approvals'
-// import ApprovalPageTool from './components/approval-tool'
 
+// import ApprovalPageTool from './components/approval-tool'
+import PageTools from '@/components/PageTools'
 export default {
   name: 'SocialTableIndex',
-  components: { },
+  components: { PageTools },
   data() {
     return {
       list: [],
@@ -86,12 +70,13 @@ export default {
   },
   methods: {
     // 初始化数据
-    async  getApprovalList() {
-      this.loading = true
+    async getApprovalList() {
+      // this.loading = true
       const { rows, total } = await getApprovalList({ year: 2018, ...this.page })
       this.page.total = total
       this.list = rows
-      this.loading = false
+      console.log(rows)
+      // this.loading = false
     },
     toDetail(obj) {
       var name = obj.processName
@@ -120,4 +105,3 @@ export default {
   }
 }
 </script>
-

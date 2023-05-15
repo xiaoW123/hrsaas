@@ -1,7 +1,7 @@
 import Layout from '@/layout' // 引入一级路由组件
 
 export default {
-  path: '/setting',
+  path: '/settings',
   name: 'settings',
   component: Layout,
   children: [

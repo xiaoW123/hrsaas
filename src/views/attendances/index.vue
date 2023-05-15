@@ -10,30 +10,21 @@
           <el-button size="mini" type="warning">提醒</el-button>
           <el-button size="mini" type="primary" @click="handleSet">设置</el-button>
           <el-button size="mini" type="default" @click="$router.push('/attendances/archiving/')">历史归档</el-button>
-          <el-button size="mini" type="primary" @click="$router.push({'path':'/attendances/report/'+ yearMonth})">{{ yearMonth }}报表</el-button>
+          <el-button size="mini" type="primary" @click="$router.push({ path: '/attendances/report/' + yearMonth })">{{ yearMonth }}报表</el-button>
         </template>
       </page-tools>
       <el-card class="hr-block">
         <el-form ref="formData" :model="formData" label-width="120px" class="formInfo">
           <el-form-item label="部门:">
             <el-checkbox-group v-model="formData.deptID">
-              <el-checkbox
-                v-for="item in departments"
-                :key="item.id"
-                :label="item.name"
-              >
+              <el-checkbox v-for="item in departments" :key="item.id" :label="item.name">
                 {{ item.name }}
               </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="考勤状态：">
             <el-radio-group v-model="formData.stateID">
-              <el-radio
-                v-for="item in stateData.holidayType"
-                :key="item.id"
-                :label="item.value"
-                :value="item.value"
-              >
+              <el-radio v-for="item in stateData.holidayType" :key="item.id" :label="item.value" :value="item.value">
                 {{ item.value }}
               </el-radio>
             </el-radio-group>
@@ -43,8 +34,8 @@
       <!-- 考勤数据 -->
       <el-card class="hr-block">
         <!-- 考勤列表 -->
-        <div style="width:100%;position: relative;overflow-x: auto; overflow-y: hidden;">
-          <div style="width: 3000px;">
+        <div style="width: 100%; position: relative; overflow-x: auto; overflow-y: hidden">
+          <div style="width: 3000px">
             <table border="0" align="center" cellpadding="0" cellspacing="0" class="tableInfo">
               <tr>
                 <th width="50">序号</th>
@@ -60,57 +51,43 @@
                 <td width="100">{{ item.workNumber }}</td>
                 <td width="200">{{ item.departmentName }}</td>
                 <td width="100">{{ item.mobile }}</td>
-                <td
-                  v-for="(it,ind) in item.attendanceRecord"
-                  :key="ind"
-                  width="110"
-                  @click="showChangeDialog(item,ind,it)"
-                >
-                  <span v-if="it.adtStatu===1">√</span>
-                  <span v-if="it.adtStatu===2">旷工</span>
-                  <span v-if="it.adtStatu===3">迟到</span>
-                  <span v-if="it.adtStatu===4">早退</span>
-                  <span v-if="it.adtStatu===5">外出</span>
-                  <span v-if="it.adtStatu===6">出差</span>
-                  <span v-if="it.adtStatu===7">年假</span>
-                  <span v-if="it.adtStatu===8">事假</span>
-                  <span v-if="it.adtStatu===9">病假</span>
-                  <span v-if="it.adtStatu===10">婚假</span>
-                  <span v-if="it.adtStatu===11">丧假</span>
-                  <span v-if="it.adtStatu===12">产假</span>
-                  <span v-if="it.adtStatu===13">奖励产假</span>
-                  <span v-if="it.adtStatu===14">陪产假</span>
-                  <span v-if="it.adtStatu===15">探亲假</span>
-                  <span v-if="it.adtStatu===16">工伤假</span>
-                  <span v-if="it.adtStatu===17">调休</span>
-                  <span v-if="it.adtStatu===18">产检假</span>
-                  <span v-if="it.adtStatu===19">流产假2</span>
-                  <span v-if="it.adtStatu===20">长期病假</span>
-                  <span v-if="it.adtStatu===21">测试架</span>
-                  <span v-if="it.adtStatu===22">补签</span>
+                <td v-for="(it, ind) in item.attendanceRecord" :key="ind" width="110" @click="showChangeDialog(item, ind, it)">
+                  <span v-if="it.adtStatu === 1">√</span>
+                  <span v-if="it.adtStatu === 2">旷工</span>
+                  <span v-if="it.adtStatu === 3">迟到</span>
+                  <span v-if="it.adtStatu === 4">早退</span>
+                  <span v-if="it.adtStatu === 5">外出</span>
+                  <span v-if="it.adtStatu === 6">出差</span>
+                  <span v-if="it.adtStatu === 7">年假</span>
+                  <span v-if="it.adtStatu === 8">事假</span>
+                  <span v-if="it.adtStatu === 9">病假</span>
+                  <span v-if="it.adtStatu === 10">婚假</span>
+                  <span v-if="it.adtStatu === 11">丧假</span>
+                  <span v-if="it.adtStatu === 12">产假</span>
+                  <span v-if="it.adtStatu === 13">奖励产假</span>
+                  <span v-if="it.adtStatu === 14">陪产假</span>
+                  <span v-if="it.adtStatu === 15">探亲假</span>
+                  <span v-if="it.adtStatu === 16">工伤假</span>
+                  <span v-if="it.adtStatu === 17">调休</span>
+                  <span v-if="it.adtStatu === 18">产检假</span>
+                  <span v-if="it.adtStatu === 19">流产假2</span>
+                  <span v-if="it.adtStatu === 20">长期病假</span>
+                  <span v-if="it.adtStatu === 21">测试架</span>
+                  <span v-if="it.adtStatu === 22">补签</span>
                 </td>
               </tr>
             </table>
           </div>
-
         </div>
-        <el-dialog
-          :visible.sync="centerDialogVisible"
-          width="30%"
-          center
-        >
-          <span slot="title" style="color:#fff;">{{ attendInfo.name }} {{ attendInfo.month }}/{{ attendInfo.getDate }}（实际工作日考勤方案）</span>
+        <el-dialog :visible.sync="centerDialogVisible" width="30%" center>
+          <span slot="title" style="color: #fff">{{ attendInfo.name }} {{ attendInfo.month }}/{{ attendInfo.getDate }}（实际工作日考勤方案）</span>
           <div class="attenInfo">
             <p class="colRed">注：统计考勤时，异常状态优先正常状态</p>
             <p class="check">
               <el-radio-group v-model="modifyData.adtStatu">
-                <el-radio
-                  v-for="item in stateData.vacationtype"
-                  :key="item.id"
-                  :label="item.id"
-                  :value="item.name"
-                >{{ item.name }}</el-radio>
-              </el-radio-group></p>
+                <el-radio v-for="item in stateData.vacationtype" :key="item.id" :label="item.id" :value="item.name">{{ item.name }}</el-radio>
+              </el-radio-group>
+            </p>
           </div>
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="btnOK">确定</el-button>
@@ -131,12 +108,7 @@
     </div>
     <el-card>
       <!-- 提醒组件 -->
-      <el-dialog
-        title="提醒"
-        :visible.sync="tipsDialogVisible"
-        width="280px"
-        center
-      >
+      <el-dialog title="提醒" :visible.sync="tipsDialogVisible" width="280px" center>
         <div class="attenInfo">
           <p>系统将通过邮件与短信的形式，对全体员工中存在旷工的考勤进行提醒，该提醒每月仅可发送 1 次。</p>
         </div>
@@ -146,7 +118,9 @@
         </span>
       </el-dialog>
       <!-- 设置组件 -->
-      <attendance-set ref="set" @handleCloseModal="handleCloseModal" /></el-card></div>
+      <attendance-set ref="set" @handleCloseModal="handleCloseModal"
+    /></el-card>
+  </div>
 </template>
 
 <script>
@@ -154,9 +128,11 @@ import attendanceApi from '@/api/constant/attendance'
 import { getAttendancesList, updateAttendance } from '@/api/attendances'
 import AttendanceSet from './components/attendance-set'
 import { getDepartments } from '@/api/departments'
+import PageTools from '@/components/PageTools'
+
 export default {
   name: 'Attendances',
-  components: { AttendanceSet },
+  components: { AttendanceSet, PageTools },
   data() {
     return {
       list: [],
@@ -246,7 +222,7 @@ export default {
       this.loading = false
     },
     // 确定修改
-    async  btnOK() {
+    async btnOK() {
       await updateAttendance(this.modifyData)
       this.centerDialogVisible = false
       this.getAttendancesList() // 成功之后 重新拉取数据
@@ -274,29 +250,29 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .tableInfo {
-    line-height: 36px;
-    border: solid 1px #ebeef5;
-    border-right: 0 none;
-    border-bottom: 0 none;
-    tr {
-      th {
-        height: 50px;
-        text-align: center;
-        border-right: solid 1px #ebeef5;
-        border-bottom: solid 1px #ebeef5;
-        border-bottom: 2px solid #e8e8e8;
-        background: #fafafa;
-        min-width:  100px;
-      }
-      td {
-        height: 36px;
-        text-align: center;
-        border-right: solid 1px #ebeef5;
-        border-bottom: solid 1px #ebeef5;
-      }
+.tableInfo {
+  line-height: 36px;
+  border: solid 1px #ebeef5;
+  border-right: 0 none;
+  border-bottom: 0 none;
+  tr {
+    th {
+      height: 50px;
+      text-align: center;
+      border-right: solid 1px #ebeef5;
+      border-bottom: solid 1px #ebeef5;
+      border-bottom: 2px solid #e8e8e8;
+      background: #fafafa;
+      min-width: 100px;
+    }
+    td {
+      height: 36px;
+      text-align: center;
+      border-right: solid 1px #ebeef5;
+      border-bottom: solid 1px #ebeef5;
     }
   }
+}
 
 .attenInfo {
   p {
@@ -304,10 +280,9 @@ export default {
       padding: 20px 0 0;
     }
     .el-radio {
-        display: inline-block;
-        width: 60px;
-        padding: 5px 0;
-
+      display: inline-block;
+      width: 60px;
+      padding: 5px 0;
     }
   }
 }

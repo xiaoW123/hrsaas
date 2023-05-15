@@ -4,17 +4,20 @@
       <!-- 工具栏 -->
       <page-tools :show-before="true">
         <template v-slot:before>
-          本月{{ tips.dateRange }}：社保在缴 {{ tips.socialSecurityCount }} 公积金在缴 {{ tips.providentFundCount }} 增员 {{ tips.newsCount }} 减员 {{ tips.reducesCount }} 入职 {{ tips.worksCount }} 离职 {{ tips.leavesCount }}
+          本月{{ tips.dateRange }}：社保在缴 {{ tips.socialSecurityCount }} 公积金在缴 {{ tips.providentFundCount }} 增员 {{ tips.newsCount }} 减员
+          {{ tips.reducesCount }} 入职 {{ tips.worksCount }} 离职 {{ tips.leavesCount }}
         </template>
         <template v-slot:after>
           <el-button size="mini" type="danger" @click="$router.push('/social_securitys/historicalArchiving')">历史归档</el-button>
-          <el-button size="mini" type="primary" @click="$router.push(`/social_securitys/monthStatement?yearMonth=${yearMonth}`)">{{ yearMonth }}报表</el-button>
+          <el-button size="mini" type="primary" @click="$router.push(`/social_securitys/monthStatement?yearMonth=${yearMonth}`)"
+            >{{ yearMonth }}报表</el-button
+          >
         </template>
       </page-tools>
       <!-- 筛选组件 -->
       <social-tool />
       <el-card class="hr-block">
-        <el-table :data="list" style="width: 100%" :default-sort="{prop: 'date', order: 'descending'}">
+        <el-table :data="list" style="width: 100%" :default-sort="{ prop: 'date', order: 'descending' }">
           <el-table-column type="index" width="50" label="序号" />
           <el-table-column prop="username" label="姓名" sortable />
           <el-table-column prop="mobile" label="手机" sortable />
@@ -42,7 +45,6 @@
           />
         </el-row>
       </el-card>
-
     </div>
   </div>
 </template>
@@ -50,10 +52,11 @@
 <script>
 import { getSocialList, getSettings } from '@/api/social'
 import SocialTool from './components/social-tool'
+import PageTools from '@/components/PageTools'
 
 export default {
   name: 'SocialTableIndex',
-  components: { SocialTool },
+  components: { SocialTool, PageTools },
   data() {
     return {
       list: [],
@@ -81,7 +84,7 @@ export default {
     goDetail(row, event, column) {
       this.$router.push({ path: 'detail' })
     },
-    async  getSocialList() {
+    async getSocialList() {
       try {
         const { rows, total } = await getSocialList({ ...this.page, ...this.selectParams })
         this.list = rows // 列表数据
@@ -120,5 +123,4 @@ export default {
   margin-bottom: 15px;
   border: 1px solid #ebeef5;
 }
-
 </style>

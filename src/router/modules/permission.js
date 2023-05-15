@@ -1,7 +1,7 @@
 import Layout from '@/layout' // 引入一级路由组件
 
 export default {
-  path: '/permission',
+  path: '/permissions',
   name: 'permissions',
   component: Layout,
   children: [

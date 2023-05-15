@@ -1,11 +1,10 @@
-
 import Layout from '@/layout'
 
 export default {
   path: '/users',
   component: Layout,
   hidden: true,
-  name: 'user',
+  name: 'users',
   children: [
     {
       path: '/users/approvals',
