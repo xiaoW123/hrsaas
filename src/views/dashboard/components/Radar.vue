@@ -11,11 +11,10 @@ require('echarts/lib/chart/radar') // 引入雷达图
 // 引入提示框和标题组件
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
-
+require('echarts/lib/component/legend')
 export default {
   // 页面渲染完毕事件
   mounted() {
-    
     const myChart = echarts.init(this.$refs.myDiv) // 得到图表实例
 
     myChart.setOption({

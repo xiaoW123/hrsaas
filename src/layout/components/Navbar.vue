@@ -8,6 +8,13 @@
     </div>
 
     <div class="right-menu">
+      <!-- 全局插件 -->
+      <!-- 语言切换 -->
+      <Lang class="right-menu-item" />
+      <!-- 主题 -->
+      <ThemePicker class="right-menu-item" />
+      <!-- 全屏 -->
+      <ScreenFull class="right-menu-item" />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img v-imagerror="defaultImg" :src="staffPhoto" class="user-avatar" />
@@ -61,6 +68,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.right-menu-item {
+  vertical-align: middle !important;
+  margin-right: 10px;
+}
 .navbar {
   height: 50px;
   overflow: hidden;
@@ -126,12 +137,10 @@ export default {
         }
       }
     }
-
     .avatar-container {
       margin-right: 30px;
 
       .avatar-wrapper {
-        margin-top: 5px;
         position: relative;
 
         .user-avatar {
